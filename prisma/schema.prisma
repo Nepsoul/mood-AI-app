@@ -35,5 +35,23 @@ model JournalEntry {
 
   content String @db.Text //it changed into full text
 
+  analysis Analysis?
+
   @@index([userId]) //this remove error in user showing relation 
+}
+
+model Analysis {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  entryId String
+  entry   JournalEntry @relation(fields: [entryId], references: [id]) //Analysis and JournalEntry has one to one relation
+
+  mood     String
+  summary  String  @db.Text
+  color    String
+  negative Boolean
+
+  @@unique([entryId]) //for one to one, id must be unique
 }
