@@ -37,7 +37,7 @@ model JournalEntry {
 
   analysis Analysis?
 
-  @@index([userId]) //this remove error in user showing relation 
+  @@unique([userId, id]) //this remove error in user showing relation 
 }
 
 model Analysis {
