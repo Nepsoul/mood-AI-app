@@ -1,8 +1,9 @@
 import { prisma } from "@/utils/db";
 import { getUserByClerkID } from "@/utils/auth";
 import NewEntryCard from "@/components/NewEntryCard";
-import EntryCard from "@/components/entrycard";
+import EntryCard from "@/components/EntryCard";
 import Link from "next/link";
+import { analyze } from "@/utils/ai";
 
 const getEntries = async () => {
   const user = await getUserByClerkID();
@@ -15,6 +16,7 @@ const getEntries = async () => {
       createdAt: "desc",
     },
   });
+  await analyze(`create me a vue component that renders a counting number`); //it gives component and used tokens as well
   return entries;
 };
 const JournalPage = async () => {
@@ -25,7 +27,6 @@ const JournalPage = async () => {
       <h2 className="text-3xl mb-8">Journal</h2>
       <div className="grid grid-cols-3 gap-4 ">
         <NewEntryCard />
-
         {entries.map((entry) => (
           <Link href={`/journal/${entry.id}`} key={entry.id}>
             <EntryCard entry={entry} />
